@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CardData } from './card-data.model'; // import the CardData interface
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +38,7 @@ export class AppComponent implements OnInit {
       .map((a) => a[1]);
   }
 
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.setupCards();
@@ -57,4 +58,8 @@ export class AppComponent implements OnInit {
     });
     this.cards = this.shuffleArray(this.cards);
   }
+
+  // cardClicked() is a function that is called when a card is clicked
+  // @TODO: add logic to handle the card click
+  cardClicked(index: number): void {}
 }
