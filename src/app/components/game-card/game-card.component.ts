@@ -5,7 +5,7 @@ import {
   state,
   animate,
 } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { CardData } from 'src/app/card-data.model';
 
@@ -39,20 +39,18 @@ import { CardData } from 'src/app/card-data.model';
   ],
 })
 export class GameCardComponent implements OnInit {
-  data: CardData = {
-    imageId: 'pDGNBK9A0sk',
-    state: 'default',
-  };
+  @Input() data: CardData;
+  @Output() cardClicked = new EventEmitter();
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  cardClicked() {
-    if (this.data.state === 'default') {
-      this.data.state = 'flipped';
-    } else {
-      this.data.state = 'default';
-    }
-  }
+  // cardClicked() {
+  //   if (this.data.state === 'default') {
+  //     this.data.state = 'flipped';
+  //   } else {
+  //     this.data.state = 'default';
+  //   }
+  // }
 }

@@ -1,4 +1,4 @@
-<div class="card" (click)="cardClicked()" [@cardFlip]="data.state">
+<div class="card" (click)="cardClicked.emit()" [@cardFlip]="data.state">
   <div class="face back">
     <img src="assets/back-card.jpg" />
     <!-- I choose to store back card in the assets folder-->
