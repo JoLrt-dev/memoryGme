@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CardData } from './card-data.model'; // import the CardData interface
 import { MatDialog } from '@angular/material/dialog';
+import { ResolveStart } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -62,8 +63,6 @@ export class AppComponent implements OnInit {
     this.cards = this.shuffleArray(this.cards);
   }
 
-  checkMatch(): void {}
-
   cardClicked(index: number): void {
     const cardInfo = this.cards[index]; // get the card info from the cards array
     if (cardInfo.state === 'default' && this.flippedCards.length < 2) {
@@ -71,12 +70,47 @@ export class AppComponent implements OnInit {
       this.flippedCards.push(cardInfo); // if the card is in the default state and there are less than 2 cards flipped, flip the card and add it to the flippedCards array
 
       if (this.flippedCards.length === 2) {
-        this.checkMatch(); // if there are 2 cards flipped, check if they match
+        this.checkIfMatch(); // if there are 2 cards flipped, check if they match
       }
     } else if (cardInfo.state === 'flipped') {
-      //flip them back if no match
       cardInfo.state = 'default';
       this.flippedCards.pop();
     }
+  }
+
+  checkIfMatch(): void {
+    setTimeout(() => {
+      const cardOne = this.flippedCards[0];
+      const cardTwo = this.flippedCards[1];
+      const isMatch = cardOne.imageId === cardTwo.imageId;
+      const nextState = isMatch ? 'matched' : 'default';
+      cardOne.state = cardTwo.state = nextState;
+
+      console.log('cardOne', cardOne);
+      console.log('cardTwo', cardTwo);
+
+      this.flippedCards = [];
+
+      if (nextState === 'matched') {
+        this.matchedCount++;
+
+        if (this.matchedCount === this.cardImages.length) {
+          alert('You won!');
+
+          this.newGame();
+          // const dialogRef = this.dialog.open(RestartDialogComponent, {
+          //   disableClose: true,
+          // });
+          // dialogRef.afterClosed().subscribe(() => {
+          //   this.restart();
+          // });
+        }
+      }
+    }, 1000);
+  }
+
+  newGame(): void {
+    this.matchedCount = 0;
+    this.setupCards();
   }
 }

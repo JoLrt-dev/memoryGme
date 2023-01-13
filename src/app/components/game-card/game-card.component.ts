@@ -32,6 +32,13 @@ import { CardData } from 'src/app/card-data.model';
           transform: 'rotateY(180deg)',
         })
       ),
+      state(
+        'matched',
+        style({
+          transform: 'scale(0.05)',
+          opacity: 0,
+        })
+      ),
       transition('default => flipped', [animate('400ms')]),
       transition('flipped => default', [animate('200ms')]),
       transition('* => matched', [animate('400ms')]),
@@ -45,12 +52,4 @@ export class GameCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-
-  // cardClicked() {
-  //   if (this.data.state === 'default') {
-  //     this.data.state = 'flipped';
-  //   } else {
-  //     this.data.state = 'default';
-  //   }
-  // }
 }
