@@ -8,24 +8,28 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'memoryGme';
+  title = 'memoryGame';
 
-  // array of image IDs from Unsplash
+  /**** Cards Constants ****/
   cardImages = [
-    'pDGNBK9A0sk',
-    'fYDrhbVlV1E',
-    'qoXgaF27zBc',
-    'b9drVB7xIOI',
-    'TQ-q5WAVHj0',
+    'card-1.jpg',
+    'card-2.jpg',
+    'card-3.jpg',
+    'card-4.jpg',
+    'card-5.jpg',
+    'card-6.jpg',
   ];
-
-  // cards is an array of CardData objects
   cards: CardData[] = [];
-
-  // flippedCards is an array of CardData objects
   flippedCards: CardData[] = [];
-
   matchedCount = 0;
+
+  /**** Logic
+   *
+   *  1. Setup the cards & shuffle them :shuffleArray() & setupCards()
+   *  2. When a card is clicked, flip it  and check if match: cardClicked() & checkMatch()
+   *  3. If match, keep them flipped, else flip them back: checkMatch()
+   *
+   * ****/
 
   // shuffleArray does :
   // 1. map the array to an array of arrays with a random number and the original value
@@ -44,7 +48,6 @@ export class AppComponent implements OnInit {
     this.setupCards();
   }
 
-  // setupCards() is a function that fill in the cards array with CardData objects
   setupCards(): void {
     this.cards = [];
     this.cardImages.forEach((image) => {
@@ -54,12 +57,26 @@ export class AppComponent implements OnInit {
       };
 
       this.cards.push({ ...cardData });
-      this.cards.push({ ...cardData });
+      this.cards.push({ ...cardData }); // 2 arrays of the same 6 cards
     });
     this.cards = this.shuffleArray(this.cards);
   }
 
-  // cardClicked() is a function that is called when a card is clicked
-  // @TODO: add logic to handle the card click
-  cardClicked(index: number): void {}
+  checkMatch(): void {}
+
+  cardClicked(index: number): void {
+    const cardInfo = this.cards[index]; // get the card info from the cards array
+    if (cardInfo.state === 'default' && this.flippedCards.length < 2) {
+      cardInfo.state = 'flipped';
+      this.flippedCards.push(cardInfo); // if the card is in the default state and there are less than 2 cards flipped, flip the card and add it to the flippedCards array
+
+      if (this.flippedCards.length === 2) {
+        this.checkMatch(); // if there are 2 cards flipped, check if they match
+      }
+    } else if (cardInfo.state === 'flipped') {
+      //flip them back if no match
+      cardInfo.state = 'default';
+      this.flippedCards.pop();
+    }
+  }
 }
