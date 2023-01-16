@@ -1,0 +1,13 @@
+<div class="card" (click)="cardClicked.emit()" [@cardFlip]="data.state">
+  <div class="face back">
+    <img src="assets/back-card.jpg" />
+    <!-- I choose to store back card in the assets folder-->
+  </div>
+  <div class="face front">
+    <!-- <img src="assets/test-frontt.jpg" /> -->
+
+    <img [src]="'assets/' + data.imageId" />
+
+    <!-- Took random images from Unplash photobank and give them a size, but you could also store them in 'assets'-->
+  </div>
+</div>
